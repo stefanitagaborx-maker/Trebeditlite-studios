@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TrebEdit Lite PRO Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:monospace;display:flex;height:100vh;overflow:hidden;background:#1e1e1e;color:#e0e0e0;}
+.sidebar{width:250px;background:#111;border-right:1px solid #333;display:flex;flex-direction:column;padding:10px;overflow-y:auto;}
+.sidebar h2{font-size:14px;color:#4fc3f7;margin:0 0 10px 0;display:flex;justify-content:space-between;align-items:center;}
+.folder,.file{padding:5px;border-radius:4px;cursor:pointer;margin-bottom:2px;}
+.folder:hover,.file:hover{background:#222;}
+.folder.active,.file.active{background:#4fc3f7;color:#222;}
+.ads{margin:5px 0;padding:5px;background:#333;text-align:center;color:#aaa;font-size:12px;border-radius:4px;}
+.main{flex:1;display:flex;flex-direction:column;position:relative;}
+.topbar{padding:10px 14px;background:#111;display:flex;justify-content:space-between;border-bottom:1px solid #333;}
+.topbar h1{font-size:14px;color:#4fc3f7;margin:0;}
+.tabs{display:flex;background:#252526;}
+.tab{flex:1;padding:10px;text-align:center;cursor:pointer;font-size:13px;border-bottom:2px solid transparent;}
+.tab.active{background:#1e1e1e;border-bottom:2px solid #4fc3f7;}
+.editor-container{flex:1;display:flex;overflow:hidden;}
+.editor{flex:1;position:relative;}
+textarea{position:absolute;top:0;left:0;width:100%;height:100%;padding:12px;font-family:monospace;font-size:14px;background:#1e1e1e;color:#dcdcdc;border:none;outline:none;resize:none;z-index:2;display:none;}
+textarea.active{display:block;}
+.preview{width:50%;background:#fff;display:flex;flex-direction:column;position:relative;}
+.preview-header{padding:8px;background:#eee;font-size:12px;color:#333;display:flex;justify-content:space-between;}
+iframe{flex:1;border:none;}
+button{padding:4px 8px;font-size:11px;margin-left:4px;cursor:pointer;}
+.floating-ad{position:fixed;width:120px;height:60px;right:10px;background:#ccc;color:#000;display:flex;justify-content:center;align-items:center;font-size:10px;border:1px solid #999;border-radius:4px;z-index:999;}
+.floating-ad.bottom{bottom:10px;}
+.floating-ad.top{top:10px;}
+#tutorial{background:#222;color:#eee;padding:10px;font-size:12px;margin-top:10px;border-radius:4px;}
+</style>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+<h2>Folders <button onclick="addFolder()">+</button></h2>
+<div id="folders"></div>
+<div class="ads">Fake Ad 1</div>
+<div class="ads">Fake Ad 2</div>
+<div class="ads">Fake Ad 3</div>
+</div>
+
+<div class="main">
+<div class="topbar">
+<h1>TrebEdit Lite PRO</h1>
+<span style="font-size:11px;color:#aaa;">Safe Version</span>
+</div>
+
+<div class="tabs">
+<div class="tab active" onclick="switchTab('html')">HTML</div>
+<div class="tab" onclick="switchTab('css')">CSS</div>
+<div class="tab" onclick="switchTab('js')">JS</div>
+</div>
+
+<div class="editor-container">
+<div class="editor">
+<textarea id="html" class="active"><h1>The Useless Clicker Game</h1>
+<button onclick="clickUseless()">Click me!</button>
+<div id="message">You have clicked 0 times. Nothing happens.</div></textarea>
+
+<textarea id="css">
+body{background:#282c34;color:white;text-align:center;font-family:Arial;}
+button{padding:15px 30px;font-size:18px;}
+</textarea>
+
+<textarea id="js">
+// Initialize clicks
+let clicks=0;
+
+// Clicker game function
+function clickUseless(){
+  clicks++;
+  const message=document.getElementById('message');
+  if(message) message.innerText=`You have clicked ${clicks} times. Still useless!`;
+
+  if(clicks>=100){
+    const dancer=project.images['dancer.gif'];
+    if(dancer){
+      const preview=document.getElementById('preview');
+      const code=`
+        <h1>The Useless Clicker Game</h1>
+        <button onclick="clickUseless()">Click me!</button>
+        <div id="message">You have clicked ${clicks} times. Still useless!</div>
+        <img id="dancer" src="\${dancer.content}" alt="Dancing Character" style="display:block;">
+        <script>
+          let clicks=${clicks};
+          function clickUseless(){
+            clicks++;
+            document.getElementById('message').innerText='You have clicked '+clicks+' times. Still useless!';
+            if(clicks>=100) document.getElementById('dancer').style.display='block';
+          }
+        <\/script>`;
+      preview.srcdoc=code;
+    }
+  }
+}
+
+// Joke Easter egg: after 1 hour
+const startTime = Date.now();
+setInterval(()=>{
+  const now = Date.now();
+  const elapsed = now - startTime; // milliseconds
+  if(elapsed >= 3600000 && !window.jokeShown){
+    alert("Joke Time! 😆\nWhy was the computer cold? Because it left Windows open!");
+    window.jokeShown = true;
+  }
+}, 30000);
+</textarea>
+</div>
+
+<div class="preview">
+<div class="preview-header">
+Live Preview <button onclick="updatePreview()">Update</button>
+</div>
+<iframe id="preview"></iframe>
+<div class="ads">Fake Ad 4</div>
+<div class="ads">Fake Ad 5</div>
+</div>
+</div>
+
+<div id="tutorial">
+<h3>Welcome to TrebEdit Lite PRO!</h3>
+<ul>
+<li>Use the <b>+</b> button in Folders to create folders.</li>
+<li>Drag & drop images, sounds, or code files into the sidebar.</li>
+<li>Click a file to edit it in the HTML/CSS/JS tabs.</li>
+<li>Press <b>Update</b> to refresh the live preview.</li>
+<li>Play the clicker game by clicking the button. Dancer shows at 100 clicks!</li>
+<li>Play for 1 hour to see a special joke Easter egg! 😎</li>
+<li>Fake ads are just for fun. Enjoy coding safely!</li>
+</ul>
+</div>
+</div>
+
+<div class="floating-ad top">Fake Ad 6</div>
+<div class="floating-ad bottom">Fake Ad 7</div>
+
+<script>
+// Initialize project at top
+let project={"root":{"index.html":{html:document.getElementById('html').value,css:document.getElementById('css').value,js:document.getElementById('js').value},"images":{"dancer.gif":{"type":"image/gif","content":"https://i.ibb.co/9qfQ8fB/dancer.gif"}},"sounds":{}}};
+let currentFolder="root",currentFile="index.html";
+
+// Render folders/files
+function renderFolders(){
+  const container=document.getElementById('folders');
+  container.innerHTML='';
+  for(let folder in project){
+    const fDiv=document.createElement('div');
+    fDiv.className='folder';
+    fDiv.innerHTML=`<div>${folder}</div>`;
+    for(let file in project[folder]){
+      const fileDiv=document.createElement('div');
+      fileDiv.className='file';
+      fileDiv.innerText=file;
+      fileDiv.onclick=()=>openFile(folder,file);
+      fDiv.appendChild(fileDiv);
+    }
+    container.appendChild(fDiv);
+  }
+}
+
+// Folder & file functions
+function addFolder(){
+  let name=prompt("Folder name:");
+  if(!name || project[name]) return;
+  project[name]={};
+  renderFolders();
+}
+
+function openFile(folder,file){
+  currentFolder=folder;
+  currentFile=file;
+  const data=project[folder][file];
+  if(data.html!==undefined) document.getElementById('html').value=data.html;
+  if(data.css!==undefined) document.getElementById('css').value=data.css;
+  if(data.js!==undefined) document.getElementById('js').value=data.js;
+  updatePreview();
+}
+
+// Tabs
+function switchTab(name){
+  ['html','css','js'].forEach(t=>document.getElementById(t).classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector(`.tab[onclick="switchTab('${name}')"]`).classList.add('active');
+}
+
+// Update preview
+function updatePreview(){
+  if(project[currentFolder][currentFile]){
+    project[currentFolder][currentFile].html=document.getElementById('html').value;
+    project[currentFolder][currentFile].css=document.getElementById('css').value;
+    project[currentFolder][currentFile].js=document.getElementById('js').value;
+  }
+  const code=`<!DOCTYPE html><html><head><style>${document.getElementById('css').value}</style></head><body>${document.getElementById('html').value}<script>${document.getElementById('js').value}<\/script></body></html>`;
+  document.getElementById('preview').srcdoc=code;
+}
+
+// Drag & Drop
+const sidebar=document.getElementById('sidebar');
+sidebar.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='copy';});
+sidebar.addEventListener('drop',e=>{
+  e.preventDefault();
+  const files=e.dataTransfer.files;
+  for(let i=0;i<files.length;i++){
+    const file=files[i];
+    const reader=new FileReader();
+    reader.onload=function(evt){
+      if(file.type.startsWith('image/')){
+        if(!project.images) project.images={};
+        project.images[file.name]={type:file.type,content:evt.target.result};
+      } else if(file.type.startsWith('audio/')){
+        if(!project.sounds) project.sounds={};
+        project.sounds[file.name]={type:file.type,content:evt.target.result};
+      } else {
+        project.root[file.name]={html:evt.target.result,css:'',js:'',content:evt.target.result};
+      }
+      renderFolders();
+    };
+    if(file.type.startsWith('image/')||file.type.startsWith('audio/')) reader.readAsDataURL(file);
+    else reader.readAsText(file);
+  }
+});
+
+// Initial
+renderFolders();
+updatePreview();
+</script>
+
+</body>
+</html>
